@@ -9,17 +9,20 @@ A powerful, professional-grade Flutter package that provides an interactive over
 ## ✨ Features
 
 ### 🎯 **Professional UI Components**
+
 - **Draggable Debug Toggle**: Floating button that can be positioned anywhere on screen
 - **Organized Control Panels**: Clean, categorized interface with proper visual hierarchy
 - **Enum-Driven Architecture**: Type-safe, maintainable code structure
 
 ### 📱 **Comprehensive Device Testing**
+
 - **Complete Device Dropdown**: Access all 15+ predefined devices organized by category
 - **Device Categories**: Phones 📱, Tablets 📱, Desktops 🖥️, Custom ⚙️
 - **Device Information**: Real-time display of dimensions and pixel density
 - **Popular Devices**: iPhone 13/14, Pixel 7, iPad 10th Gen, MacBook Pro, and more
 
 ### 🎛️ **Advanced Controls**
+
 - **Orientation Toggle**: Seamless portrait/landscape switching with visual indicators
 - **Font Scale Control**: Preset chips (Small, Normal, Large, Extra Large, Huge, Accessibility) + custom slider (50%-300%)
 - **Visual Debug Options**: Layout bounds overlay, safe area simulation with toggle switches
@@ -27,6 +30,7 @@ A powerful, professional-grade Flutter package that provides an interactive over
 - **Real-time Updates**: All changes apply instantly without app restart
 
 ### 🛡️ **Developer Experience**
+
 - **Debug Mode Only**: Automatically disabled in release builds for production safety
 - **Cross-Platform**: Works on Android, iOS, Web, Windows, macOS, and Linux
 - **Memory Efficient**: Minimal performance impact on your app
@@ -42,7 +46,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_responsive_debugger: ^1.0.0
+  flutter_responsive_debugger: ^1.0.1
 ```
 
 Then run:
@@ -92,6 +96,7 @@ class MyApp extends StatelessWidget {
 ## 📱 Supported Devices
 
 ### Phones
+
 - iPhone SE (3rd gen) - 375×667
 - iPhone 13/14 - 390×844
 - iPhone 13/14 Pro Max - 428×926
@@ -100,12 +105,14 @@ class MyApp extends StatelessWidget {
 - Samsung Galaxy S23 - 384×854
 
 ### Tablets
+
 - iPad (10th gen) - 820×1180
 - iPad Pro 11" - 834×1194
 - iPad Pro 12.9" - 1024×1366
 - Pixel Tablet - 1600×2560
 
 ### Desktop
+
 - MacBook Air 13" - 1440×900
 - MacBook Pro 14" - 1512×982
 - Desktop 1080p - 1920×1080
@@ -114,11 +121,13 @@ class MyApp extends StatelessWidget {
 ## 🎛️ Controls
 
 ### Device Simulation
+
 - **Device Presets**: Choose from predefined device configurations
 - **Custom Size**: Enter specific width and height dimensions
 - **Orientation**: Toggle between portrait and landscape
 
 ### Typography & Accessibility
+
 - **Font Scale**: Adjust from 0.5x to 3.0x with preset options:
   - Small (0.8x)
   - Normal (1.0x)
@@ -128,11 +137,13 @@ class MyApp extends StatelessWidget {
   - Accessibility (2.0x)
 
 ### Visual Debugging
+
 - **Layout Bounds**: Show red borders around all widgets
 - **Safe Area**: Simulate device-specific safe areas (notches, etc.)
 - **Zoom Level**: Scale the entire UI from 0.5x to 2.0x
 
 ### Platform Testing
+
 - **Platform Override**: Test platform-specific code paths
   - Android
   - iOS
