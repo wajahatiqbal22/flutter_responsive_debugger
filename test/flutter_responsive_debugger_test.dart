@@ -49,7 +49,7 @@ void main() {
     });
 
     test('initial state is correct', () {
-      expect(controller.isVisible, false);
+      expect(controller.isVisible, true);
       expect(controller.isPanelOpen, false);
       expect(controller.selectedDevice, null);
       expect(controller.orientation, DebugOrientation.portrait);
@@ -61,13 +61,16 @@ void main() {
     });
 
     test('toggleVisibility works correctly', () {
-      expect(controller.isVisible, false);
-
-      controller.toggleVisibility();
+      // Initial state is visible
       expect(controller.isVisible, true);
 
+      // Toggle to hide
       controller.toggleVisibility();
       expect(controller.isVisible, false);
+
+      // Toggle to show again
+      controller.toggleVisibility();
+      expect(controller.isVisible, true);
     });
 
     test('setDevice works correctly', () {

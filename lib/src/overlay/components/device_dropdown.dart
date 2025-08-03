@@ -5,6 +5,14 @@ import '../../core/debugger_controller.dart';
 import '../../core/devices.dart';
 import '../../core/enums.dart';
 
+// Special key for the default device option
+const String _defaultDeviceKey = 'DEFAULT_DEVICE';
+
+// Extension to handle default device case
+extension _DeviceConfigX on DeviceConfig? {
+  String get dropdownKey => this?.name ?? _defaultDeviceKey;
+}
+
 /// A professional dropdown component for device selection
 /// Organizes devices by category with proper visual hierarchy
 class DeviceDropdown extends StatelessWidget {
@@ -21,9 +29,9 @@ class DeviceDropdown extends StatelessWidget {
               children: [
                 const Icon(Icons.phone_android, size: 16, color: Colors.blue),
                 const SizedBox(width: 8),
-                Text(
-                  DebuggerSection.deviceSelection.displayName,
-                  style: const TextStyle(
+                const Text(
+                  'Device',
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -42,7 +50,11 @@ class DeviceDropdown extends StatelessWidget {
     );
   }
 
-  Widget _buildDeviceDropdown(BuildContext context, DebuggerController controller) {
+  Widget _buildDeviceDropdown(
+      BuildContext context, DebuggerController controller) {
+    // Get the current screen size for the default option
+    final screenSize = MediaQuery.of(context).size;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -52,15 +64,22 @@ class DeviceDropdown extends StatelessWidget {
         color: Colors.white,
       ),
       child: DropdownButtonHideUnderline(
-        child: DropdownButton<DeviceConfig>(
-          value: controller.selectedDevice,
+        child: DropdownButton<String>(
+          value: controller.selectedDevice?.dropdownKey ?? _defaultDeviceKey,
           hint: const Text('Select a device...'),
           isExpanded: true,
           icon: const Icon(Icons.keyboard_arrow_down),
-          items: _buildDropdownItems(),
-          onChanged: (device) {
-            if (device != null) {
-              controller.setDevice(device);
+          items: _buildDropdownItems(screenSize),
+          onChanged: (String? newKey) {
+            if (newKey == _defaultDeviceKey) {
+              // Reset to default (current screen size)
+              controller.setDevice(null);
+            } else {
+              // Find the selected device
+              final device = _findDeviceByKey(newKey);
+              if (device != null) {
+                controller.setDevice(device);
+              }
             }
           },
         ),
@@ -68,13 +87,35 @@ class DeviceDropdown extends StatelessWidget {
     );
   }
 
-  List<DropdownMenuItem<DeviceConfig>> _buildDropdownItems() {
-    final List<DropdownMenuItem<DeviceConfig>> items = [];
-    
+  // Find device by its dropdown key
+  DeviceConfig? _findDeviceByKey(String? key) {
+    if (key == null || key == _defaultDeviceKey) return null;
+    return Devices.allDevicesList.firstWhere(
+      (device) => device.dropdownKey == key,
+      orElse: () => Devices.phones.first,
+    );
+  }
+
+  List<DeviceConfig> _getDevicesForCategory(DeviceCategory category) {
+    switch (category) {
+      case DeviceCategory.phone:
+        return Devices.phones;
+      case DeviceCategory.tablet:
+        return Devices.tablets;
+      case DeviceCategory.desktop:
+        return Devices.desktops;
+      default:
+        return [];
+    }
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownItems(Size screenSize) {
+    final items = <DropdownMenuItem<String>>[];
+
     // Add default device option
     items.add(
-      DropdownMenuItem<DeviceConfig>(
-        value: null,
+      DropdownMenuItem<String>(
+        value: _defaultDeviceKey,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
@@ -82,11 +123,11 @@ class DeviceDropdown extends StatelessWidget {
               const Icon(Icons.smartphone, size: 16, color: Colors.blue),
               const SizedBox(width: 8),
               Text(
-                'Device Default',
-                style: TextStyle(
+                'Default (${screenSize.width.toInt()}×${screenSize.height.toInt()})',
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Colors.blue.shade700,
+                  color: Colors.blue,
                 ),
               ),
               const SizedBox(width: 8),
@@ -98,7 +139,7 @@ class DeviceDropdown extends StatelessWidget {
                   border: Border.all(color: Colors.blue.shade200),
                 ),
                 child: Text(
-                  'Recommended',
+                  'Current Screen',
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.blue.shade600,
@@ -111,93 +152,59 @@ class DeviceDropdown extends StatelessWidget {
         ),
       ),
     );
-    
+
     // Add separator
     items.add(
-      DropdownMenuItem<DeviceConfig>(
+      const DropdownMenuItem<String>(
         enabled: false,
-        value: null,
-        child: Container(
-          height: 1,
-          margin: const EdgeInsets.symmetric(vertical: 4),
-          color: Colors.grey.shade200,
-        ),
+        value: '',
+        child: Divider(height: 1, thickness: 1),
       ),
     );
-    
+
     // Add category headers and devices
     for (final category in DeviceCategory.values) {
       final categoryDevices = _getDevicesForCategory(category);
       if (categoryDevices.isEmpty) continue;
-      
+
       // Add category header
       items.add(
-        DropdownMenuItem<DeviceConfig>(
+        DropdownMenuItem<String>(
           enabled: false,
-          value: null,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Text(
-                  category.icon,
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  category.displayName.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
+          value: '',
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Text(
+              category.displayName.toUpperCase(),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[600],
+                letterSpacing: 0.5,
+              ),
             ),
           ),
         ),
       );
-      
+
       // Add devices in this category
       for (final device in categoryDevices) {
         items.add(
-          DropdownMenuItem<DeviceConfig>(
-            value: device,
+          DropdownMenuItem<String>(
+            value: device.name,
             child: Padding(
-              padding: const EdgeInsets.only(left: 24),
+              padding: const EdgeInsets.only(left: 16.0, top: 8, bottom: 8),
               child: Row(
                 children: [
-                  Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+                  Icon(
+                    _getDeviceIcon(device.platform),
+                    size: 16,
+                    color: Colors.grey[700],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          device.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          '${device.size.width.toInt()} × ${device.size.height.toInt()}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                      ],
-                    ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${device.name} (${device.size.width.toInt()}×${device.size.height.toInt()})',
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -205,79 +212,102 @@ class DeviceDropdown extends StatelessWidget {
           ),
         );
       }
-      
-      // Add separator between categories (except for last category)
-      if (category != DeviceCategory.values.last) {
-        items.add(
-          DropdownMenuItem<DeviceConfig>(
-            enabled: false,
-            value: null,
-            child: Container(
-              height: 1,
-              margin: const EdgeInsets.symmetric(vertical: 4),
-              color: Colors.grey.shade200,
-            ),
-          ),
-        );
-      }
+
+      // Add separator between categories
+      items.add(
+        const DropdownMenuItem<String>(
+          enabled: false,
+          value: '',
+          child: Divider(height: 1, thickness: 1),
+        ),
+      );
     }
-    
+
     return items;
   }
 
-  List<DeviceConfig> _getDevicesForCategory(DeviceCategory category) {
-    switch (category) {
-      case DeviceCategory.phone:
-        return Devices.phones;
-      case DeviceCategory.tablet:
-        return Devices.tablets;
-      case DeviceCategory.desktop:
-        return Devices.desktops;
-      case DeviceCategory.custom:
-        return []; // Custom devices would be handled separately
+  IconData _getDeviceIcon(DebugPlatform platform) {
+    switch (platform) {
+      case DebugPlatform.android:
+        return Icons.android;
+      case DebugPlatform.iOS:
+        return Icons.phone_iphone;
+      case DebugPlatform.macOS:
+        return Icons.desktop_mac;
+      case DebugPlatform.windows:
+        return Icons.desktop_windows;
+      case DebugPlatform.linux:
+        return Icons.desktop_windows_rounded;
+      case DebugPlatform.web:
+        return Icons.web;
+      default:
+        return Icons.device_unknown;
     }
   }
 
   Widget _buildDeviceInfo(DeviceConfig device) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.blue.shade50,
+        color: Colors.grey[50], // Using index operator for const color
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.shade200),
+        border: Border.all(
+            color:
+                Colors.grey[200]!), // Using index operator with null assertion
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.info_outline,
-            size: 16,
-            color: Colors.blue.shade700,
+          Row(
+            children: [
+              const Icon(Icons.info_outline, size: 16, color: Colors.blue),
+              const SizedBox(width: 8),
+              Text(
+                device.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  device.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.blue.shade800,
-                    fontSize: 13,
-                  ),
-                ),
-                Text(
-                  '${device.size.width.toInt()} × ${device.size.height.toInt()} • ${device.pixelRatio}x density',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.blue.shade600,
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildInfoItem('Size',
+                  '${device.size.width.toInt()}×${device.size.height.toInt()}'),
+              _buildInfoItem(
+                  'Pixel Ratio', '${device.pixelRatio.toStringAsFixed(1)}x'),
+              _buildInfoItem('Platform', device.platform.name.toUpperCase()),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoItem(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            color: Colors.grey[600],
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

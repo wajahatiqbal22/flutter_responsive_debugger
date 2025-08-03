@@ -19,6 +19,9 @@ class DebuggerController extends ChangeNotifier {
   bool get isVisible => _isVisible;
   bool get isPanelOpen => _isPanelOpen;
   DeviceConfig? get selectedDevice => _selectedDevice;
+  
+  /// Whether the current device is the default (actual screen size)
+  bool get isDefaultDevice => _selectedDevice == null;
   DebugOrientation get orientation => _orientation;
   double get fontScale => _fontScale;
   bool get showLayoutBounds => _showLayoutBounds;
@@ -93,10 +96,18 @@ class DebuggerController extends ChangeNotifier {
   }
 
   /// Set the selected device
+  /// Sets the current device configuration
+  /// If [device] is null, resets to the default (actual screen size)
   void setDevice(DeviceConfig? device) {
+    if (device == _selectedDevice) return;
     _selectedDevice = device;
     _customSize = null; // Clear custom size when selecting a preset
     notifyListeners();
+  }
+  
+  /// Resets to the default device (actual screen size)
+  void resetToDefault() {
+    setDevice(null);
   }
 
   /// Set custom screen size

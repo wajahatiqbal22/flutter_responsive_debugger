@@ -1,6 +1,13 @@
 name: flutter_responsive_debugger
 description: A dev-only overlay to debug and preview responsive layouts in Flutter apps without switching emulators.
-version: 1.0.0
+version: 1.0.1
+
+# Changelog
+# 1.0.1
+# - Fixed default device selection in dropdown to properly handle current screen size
+# - Resolved duplicate value issue in device dropdown
+# - Improved cross-platform compatibility
+# - Added proper null safety for device selection
 homepage: https://github.com/wajahatiqbal22/flutter_responsive_debugger
 repository: https://github.com/wajahatiqbal22/flutter_responsive_debugger
 

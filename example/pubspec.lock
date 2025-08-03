@@ -65,10 +65,11 @@ packages:
   flutter_responsive_debugger:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.1.0"
+      name: flutter_responsive_debugger
+      sha256: deb49dc48a18ba5f218892f53aeac5a2eed9fd1f41ec5313f005e85da3cc127e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
