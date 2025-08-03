@@ -46,7 +46,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_responsive_debugger: ^1.0.1
+  flutter_responsive_debugger: ^1.0.3
 ```
 
 Then run:
