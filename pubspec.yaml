@@ -1,6 +1,6 @@
 name: flutter_responsive_debugger
 description: A dev-only overlay to debug and preview responsive layouts in Flutter apps without switching emulators.
-version: 1.0.4
+version: 1.0.7
 
 # Changelog
 # 1.0.4
@@ -30,6 +30,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/flutterpackage.gif
 
 # Platform support
 platforms:

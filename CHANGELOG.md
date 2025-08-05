@@ -3,11 +3,13 @@
 ## [1.0.4] - 2025-08-05
 
 ### Added
+
 - Added demo GIF to README for better visualization
 
 ## [1.0.3] - 2024-08-04
 
 ### Fixed
+
 - Fixed default device selection in dropdown to properly handle current screen size
 - Resolved duplicate value issue in device dropdown
 - Improved cross-platform compatibility
@@ -16,6 +18,7 @@
 ## [0.1.0] - 2024-08-03
 
 ### Added
+
 - Initial release of Flutter Responsive Debugger
 - Floating draggable debug button
 - Device simulation with preset configurations
@@ -39,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2024-08-03
 
 ### Added
+
 - Initial release of Flutter Responsive Debugger
 - Floating draggable debug button
 - Device simulation with preset configurations
@@ -57,12 +61,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Debug-mode only safety checks
 
 ### Device Presets
+
 - iPhone SE (3rd gen), iPhone 13/14, iPhone 13/14 Pro Max
 - Pixel 7, Pixel 7 Pro, Samsung Galaxy S23
 - iPad (10th gen), iPad Pro 11", iPad Pro 12.9", Pixel Tablet
 - MacBook Air 13", MacBook Pro 14", Desktop 1080p/1440p
 
 ### Features
+
 - Provider-based state management
 - MediaQuery overrides for accurate simulation
 - Draggable floating button with edge snapping
