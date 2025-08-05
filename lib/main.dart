@@ -85,7 +85,8 @@ class ExampleHomePage extends StatelessWidget {
                     _buildInfoRow(
                         'Text Scale Factor',
                         MediaQuery.of(context)
-                            .textScaleFactor
+                            .textScaler
+                            .scale(1.0)
                             .toStringAsFixed(2)),
                     _buildInfoRow('Platform', Theme.of(context).platform.name),
                     _buildInfoRow(
@@ -245,8 +246,8 @@ class ExampleHomePage extends StatelessWidget {
   Widget _buildFeatureChip(String label, Color color) {
     return Chip(
       label: Text(label),
-      backgroundColor: color.withOpacity(0.1),
-      side: BorderSide(color: color.withOpacity(0.3)),
+      backgroundColor: color.withValues(alpha: 0.1),
+      side: BorderSide(color: color.withValues(alpha: 0.3)),
     );
   }
 

@@ -25,11 +25,11 @@ class DeviceDropdown extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.phone_android, size: 16, color: Colors.blue),
-                const SizedBox(width: 8),
-                const Text(
+                Icon(Icons.phone_android, size: 16, color: Colors.blue),
+                SizedBox(width: 8),
+                Text(
                   'Device',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -240,8 +240,6 @@ class DeviceDropdown extends StatelessWidget {
         return Icons.desktop_windows_rounded;
       case DebugPlatform.web:
         return Icons.web;
-      default:
-        return Icons.device_unknown;
     }
   }
 

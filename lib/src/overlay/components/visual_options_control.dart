@@ -67,7 +67,10 @@ class VisualOptionsControl extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isEnabled ? Color.fromRGBO(color.red, color.green, color.blue, 0.1) : Colors.grey.shade50,
+          color: isEnabled
+              ? Color.fromRGBO(
+                  color.r.toInt(), color.g.toInt(), color.b.toInt(), 0.1)
+              : Colors.grey.shade50,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isEnabled ? color : Colors.grey.shade300,
@@ -96,7 +99,9 @@ class VisualOptionsControl extends StatelessWidget {
                     option.displayName,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: isEnabled ? Colors.grey.shade800 : Colors.grey.shade700,
+                      color: isEnabled
+                          ? Colors.grey.shade800
+                          : Colors.grey.shade700,
                       fontSize: 13,
                     ),
                   ),
@@ -104,7 +109,9 @@ class VisualOptionsControl extends StatelessWidget {
                     _getOptionDescription(option),
                     style: TextStyle(
                       fontSize: 11,
-                      color: isEnabled ? Colors.grey.shade600 : Colors.grey.shade600,
+                      color: isEnabled
+                          ? Colors.grey.shade600
+                          : Colors.grey.shade600,
                     ),
                   ),
                 ],
