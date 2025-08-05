@@ -4,6 +4,8 @@
 [![GitHub](https://img.shields.io/github/license/wajahatiqbal22/flutter_responsive_debugger)](https://github.com/wajahatiqbal22/flutter_responsive_debugger)
 [![GitHub stars](https://img.shields.io/github/stars/wajahatiqbal22/flutter_responsive_debugger)](https://github.com/wajahatiqbal22/flutter_responsive_debugger)
 
+![Flutter Responsive Debugger Demo](assets/flutterpackage.gif)
+
 A powerful, professional-grade Flutter package that provides an interactive overlay for testing app responsiveness across different devices, orientations, font scales, and more - all without rebuilding or switching emulators.
 
 ## ✨ Features
