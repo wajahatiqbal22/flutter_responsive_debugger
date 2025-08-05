@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.0.7] - 2025-01-27
+
+### Fixed
+
+- Fixed deprecated `textScaleFactor` usage by replacing with `textScaler.scale(1.0)`
+- Updated deprecated `withOpacity()` calls to use `withValues(alpha: ...)` for better precision
+- Replaced deprecated color properties (`color.red`, `color.green`, `color.blue`) with new `.r`, `.g`, `.b` properties
+- Added `const` constructors for better performance in device dropdown
+- Removed unreachable default clause in switch statement
+- Fixed all linting issues and deprecated API usage across the codebase
+- Improved code quality and performance optimizations
+
+### Technical Improvements
+
+- Updated to use latest Flutter APIs and best practices
+- Enhanced type safety with proper null handling
+- Improved performance with const constructors where applicable
+- Resolved all 12 linting issues for clean codebase
+
 ## [1.0.4] - 2025-08-05
 
 ### Added
